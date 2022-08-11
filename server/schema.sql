@@ -1,9 +1,19 @@
+DROP DATABASE IF EXISTS chat;
 CREATE DATABASE chat;
 
 USE chat;
 
+CREATE TABLE users (
+  id integer primary key auto_increment,
+  username varchar(24)
+);
+
 CREATE TABLE messages (
-  /* Describe your table here.*/
+id integer primary key auto_increment,
+content varchar(144),
+created timestamp,
+user_id integer,
+foreign key (user_id) references users(id)
 );
 
 /* Create other tables and define schemas for them here! */
