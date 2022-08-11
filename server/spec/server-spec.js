@@ -43,8 +43,8 @@ describe('Persistent Node Chat Server', () => {
 
         /* TODO: You might have to change this test to get all the data from
          * your message table, since this is schema-dependent. */
-        const queryString = 'SELECT * FROM messages';
-        const queryArgs = [];
+        const queryString = 'SELECT * FROM `messages` WHERE `content` = ? `user_id` = (SELECT `id` FROM `users` WHERE `users.username` = ?);' //'SELECT * FROM messages';
+        const queryArgs = [message, username]; // []
 
         dbConnection.query(queryString, queryArgs, (err, results) => {
           if (err) {
@@ -53,8 +53,8 @@ describe('Persistent Node Chat Server', () => {
           // Should have one result:
           expect(results.length).toEqual(1);
 
-          // TODO: If you don't have a column named text, change this test.
-          expect(results[0].text).toEqual(message);
+          // COMPLETE TODO: If you don't have a column named text, change this test.
+          expect(results[0].content).toEqual(message);
           done();
         });
       })
@@ -65,8 +65,8 @@ describe('Persistent Node Chat Server', () => {
 
   it('Should output all messages from the DB', (done) => {
     // Let's insert a message into the db
-       const queryString = '';
-       const queryArgs = [];
+       const queryString = 'INSERT INTO `messages` (`content`, `created`) VALUES (?,?);';
+       const queryArgs = [message, '1969-12-31'];
     /* TODO: The exact query string and query args to use here
      * depend on the schema you design, so I'll leave them up to you. */
     dbConnection.query(queryString, queryArgs, (err) => {
