@@ -8,8 +8,8 @@ const API_URL = 'http://127.0.0.1:3000/classes';
 
 describe('Persistent Node Chat Server', () => {
   const dbConnection = mysql.createConnection({
-    user: 'student',
-    password: 'student',
+    user: 'root',
+    password: '',
     database: 'chat',
   });
 
@@ -36,15 +36,18 @@ describe('Persistent Node Chat Server', () => {
     axios.post(`${API_URL}/users`, { username })
       .then(() => {
         // Post a message to the node chat server:
-        return axios.post(`${API_URL}/messages`, { username, message, roomname });
+        //return axios.post(`${API_URL}/messages`, { username, message, roomname });
+        return axios.post(`${API_URL}/messages`, {  content: message });
       })
       .then(() => {
         // Now if we look in the database, we should find the posted message there.
 
         /* TODO: You might have to change this test to get all the data from
          * your message table, since this is schema-dependent. */
-        const queryString = 'SELECT * FROM `messages` WHERE `content` = ? `user_id` = (SELECT `id` FROM `users` WHERE `users.username` = ?);' //'SELECT * FROM messages';
-        const queryArgs = [message, username]; // []
+        //const queryString = 'SELECT * FROM `messages` WHERE `content` = ? `user_id` = (SELECT `id` FROM `users` WHERE `users.username` = ?);' //'SELECT * FROM messages';
+        //const queryArgs = [message, username]; // []
+        const queryString = 'SELECT * FROM messages WHERE content = ?;' //'SELECT * FROM messages';
+        const queryArgs = [message]; // []
 
         dbConnection.query(queryString, queryArgs, (err, results) => {
           if (err) {

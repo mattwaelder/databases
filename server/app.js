@@ -1,4 +1,5 @@
 var express = require('express');
+//the connection to the db
 var db = require('./db');
 
 // Middleware

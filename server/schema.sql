@@ -3,6 +3,10 @@ CREATE DATABASE chat;
 
 USE chat;
 
+CREATE TABLE test (
+  id integer
+);
+
 CREATE TABLE users (
   id integer primary key auto_increment,
   username varchar(24)
